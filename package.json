@@ -1,0 +1,36 @@
+{
+  "name": "skilllink-backend",
+  "version": "1.0.0",
+  "description": "SkillLink backend API built with Express.js (ESM).",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ST10248581/skilllink-backend.git"
+  },
+  "keywords": [
+    "express",
+    "backend",
+    "skilllink",
+    "api",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ST10248581/skilllink-backend/issues"
+  },
+  "homepage": "https://github.com/ST10248581/skilllink-backend#readme",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
