@@ -1,4 +1,5 @@
 const supabase = require('../client/SupabaseClient');
+const admin = require('firebase-admin');
 
 exports.syncFirebaseUser = async (req, res) => {
   const { uid, email, name } = req.user;
@@ -20,3 +21,48 @@ exports.syncFirebaseUser = async (req, res) => {
   if (error) return res.status(500).json({ error: error.message });
   res.json({ message: 'User synced', data });
 };
+
+exports.deleteCustomerAccount = async (req, res) => {
+  try {
+    const { uid } = req.user;
+
+    // Step 1: Find Customer
+    const { data: customer, error: findError } = await supabase
+      .from('Customer')
+      .select('id')
+      .eq('Firebase_uiid', uid)
+      .single();
+
+    if (findError || !customer) {
+      return res.status(404).json({ error: 'Customer not found' });
+    }
+
+    const customerId = customer.id;
+
+    // Step 2: Delete related data
+    const deleteBookings = await supabase
+      .from('Booking')
+      .delete()
+      .eq('CustomerID', customerId);
+
+    const deletePayments = await supabase
+      .from('PaymentMethods')
+      .delete()
+      .eq('UserId', customerId);
+
+    // Step 3: Delete Customer row
+    const deleteCustomer = await supabase
+      .from('Customer')
+      .delete()
+      .eq('id', customerId);
+
+    // Step 4: Delete Firebase account
+    await admin.auth().deleteUser(uid);
+
+    res.status(200).json({ ok: true, message: 'Account and all data deleted' });
+  } catch (e) {
+    console.error('[DELETE /users/me] error', e);
+    res.status(500).json({ error: 'Failed to delete account and data' });
+  }
+};
+

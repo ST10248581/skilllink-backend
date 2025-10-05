@@ -7,12 +7,15 @@ const serviceRoutes = require('./routes/serviceRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const supabase = require('./client/SupabaseClient');
+const path = require('path');
+
 
 
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/users', userRoutes);
 app.use('/api/categories', categoryRoutes);
@@ -115,5 +118,11 @@ app.get('/api/payments/mock-success', async (req, res) => {
 app.get('/', (req, res) => {
   res.send('Express backend is live');
 });
+
+app.get('/faq', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'faq.html'));
+});
+
+
 
 module.exports = app;
