@@ -1,5 +1,5 @@
-# .github/workflows/kotlin-frontend.yml
-name: Kotlin Frontend CI
+# .github/workflows/express-backend.yml
+name: Express Backend CI
 
 on:
   push:
@@ -15,27 +15,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          node-version: '20'   # You can change this to match your project
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+      - name: Install dependencies
+        run: npm install
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: Lint code (optional)
+        run: npm run lint
+        continue-on-error: true  # Avoid failing the workflow if linting is not critical
 
-      - name: Build Kotlin frontend
-        run: ./gradlew build
+      - name: Build project
+        run: npm run build
 
       # - name: Run unit tests
-      #   run: ./gradlew test
+      #   run: npm test
