@@ -23,10 +23,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Lint code (optional)
-        run: npm run lint
-        continue-on-error: true  # Avoid failing the workflow if linting is not critical
-
       - name: Build project
         run: npm run build
 
