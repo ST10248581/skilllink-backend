@@ -26,7 +26,7 @@ exports.deleteCustomerAccount = async (req, res) => {
   try {
     const { uid } = req.user;
 
-    // Step 1: Find Customer
+    // Find Customer
     const { data: customer, error: findError } = await supabase
       .from('Customer')
       .select('id')
@@ -39,7 +39,7 @@ exports.deleteCustomerAccount = async (req, res) => {
 
     const customerId = customer.id;
 
-    // Step 2: Delete related data
+    // Delete related data
     const deleteBookings = await supabase
       .from('Booking')
       .delete()
@@ -50,13 +50,13 @@ exports.deleteCustomerAccount = async (req, res) => {
       .delete()
       .eq('UserId', customerId);
 
-    // Step 3: Delete Customer row
+    // Delete Customer row
     const deleteCustomer = await supabase
       .from('Customer')
       .delete()
       .eq('id', customerId);
 
-    // Step 4: Delete Firebase account
+    // Delete Firebase account
     await admin.auth().deleteUser(uid);
 
     res.status(200).json({ ok: true, message: 'Account and all data deleted' });

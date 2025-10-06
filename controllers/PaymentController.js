@@ -23,7 +23,7 @@ const initiateMockPayment = async (req, res) => {
     const customerId = customerData.id;
 
     // Build mock payment URL
-    const fakePaymentUrl = `https://ruddier-ching-unextraneously.ngrok-free.dev/api/payments/mock-success?customerId=${customerId}&tiersId=${tiersId}`;
+    const fakePaymentUrl = `https://skilllink-backend-hwpd.onrender.com/api/payments/mock-success?customerId=${customerId}&tiersId=${tiersId}`;
 
     console.log('Mock payment URL:', fakePaymentUrl);
     res.json({ paymentUrl: fakePaymentUrl });

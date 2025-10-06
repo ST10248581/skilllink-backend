@@ -7,3 +7,14 @@ const supabase = createClient(
 );
 
 module.exports = supabase;
+
+/*
+Code Attribution
+Code from Supabase
+Link: https://supabase.com/docs/reference/javascript/initializing
+Accessed: 28 September 2025
+import { createClient } from '@supabase/supabase-js'
+
+// Create a single supabase client for interacting with your database
+const supabase = createClient('https://xyzcompany.supabase.co', 'publishable-or-anon-key')
+ */
